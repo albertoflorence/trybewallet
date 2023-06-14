@@ -1,10 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-function Table({ expenses }) {
-  const editItem = () => {};
-  const deleteItem = () => {};
-  console.log(expenses);
+function Table({ expenses, deleteExpense, editExpense }) {
   return (
     <table>
       <thead>
@@ -30,9 +27,9 @@ function Table({ expenses }) {
             currency,
             tag,
             exchangeRates,
-            exchangeValue,
           }) => {
             const { name, ask } = exchangeRates[currency];
+            const exchangeValue = Number(value) * Number(exchangeRates[currency].ask);
             return (
               <tr key={ id }>
                 <td>{description}</td>
@@ -44,8 +41,10 @@ function Table({ expenses }) {
                 <td>{Number(ask).toFixed(2)}</td>
                 <td>{Number(exchangeValue).toFixed(2)}</td>
                 <td>
-                  <button onClick={ () => editItem(id) }>Editar</button>
-                  <button onClick={ () => deleteItem(id) }>Excluir</button>
+                  <button onClick={ () => editExpense(id) }>Editar</button>
+                  <button data-testid="delete-btn" onClick={ () => deleteExpense(id) }>
+                    Excluir
+                  </button>
                 </td>
               </tr>
             );
@@ -67,7 +66,6 @@ Table.propTypes = {
       value: PropTypes.string,
       currency: PropTypes.string,
       tag: PropTypes.string,
-      exchangeValue: PropTypes.string,
       exchangeRates: PropTypes.objectOf(
         PropTypes.shape({
           name: PropTypes.string,
@@ -75,4 +73,6 @@ Table.propTypes = {
       ),
     }),
   ).isRequired,
+  deleteExpense: PropTypes.func.isRequired,
+  editExpense: PropTypes.func.isRequired,
 };

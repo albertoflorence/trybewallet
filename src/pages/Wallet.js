@@ -8,9 +8,20 @@ import Table from '../components/Table';
 import {
   addExpense as actionAddExpense,
   getCurrencies as actionGetCurrencies,
+  editExpense as actionEditExpense,
+  deleteExpense as actionDeleteExpense,
 } from '../redux/actions';
 
-function Wallet({ user, total, currencies, getCurrencies, addExpense, expenses }) {
+function Wallet({
+  user,
+  total,
+  currencies,
+  getCurrencies,
+  addExpense,
+  expenses,
+  editExpense,
+  deleteExpense,
+}) {
   return (
     <>
       <Header user={ user } total={ total } />
@@ -19,7 +30,11 @@ function Wallet({ user, total, currencies, getCurrencies, addExpense, expenses }
         getCurrencies={ getCurrencies }
         currencies={ currencies }
       />
-      <Table expenses={ expenses } />
+      <Table
+        expenses={ expenses }
+        editExpense={ editExpense }
+        deleteExpense={ deleteExpense }
+      />
     </>
   );
 }
@@ -34,6 +49,8 @@ const mapStateToProps = ({ wallet, user }) => ({
 const mapDispatchToProps = {
   getCurrencies: actionGetCurrencies,
   addExpense: actionAddExpense,
+  editExpense: actionEditExpense,
+  deleteExpense: actionDeleteExpense,
 };
 
 Wallet.propTypes = {
@@ -44,14 +61,18 @@ Wallet.propTypes = {
     email: PropTypes.string,
   }).isRequired,
   total: PropTypes.number.isRequired,
-  expenses: PropTypes.arrayOf(PropTypes.shape({
-    id: PropTypes.number,
-    description: PropTypes.string,
-    method: PropTypes.string,
-    value: PropTypes.string,
-    currency: PropTypes.string,
-    tag: PropTypes.string,
-  })).isRequired,
+  expenses: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.number,
+      description: PropTypes.string,
+      method: PropTypes.string,
+      value: PropTypes.string,
+      currency: PropTypes.string,
+      tag: PropTypes.string,
+    }),
+  ).isRequired,
+  editExpense: PropTypes.func.isRequired,
+  deleteExpense: PropTypes.func.isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Wallet);
