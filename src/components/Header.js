@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 
 function Header({ user, total }) {
   return (
@@ -16,12 +15,7 @@ function Header({ user, total }) {
   );
 }
 
-const mapStateToProps = ({ user, wallet }) => ({
-  user,
-  total: wallet.total,
-});
-
-export default connect(mapStateToProps)(Header);
+export default Header;
 
 Header.propTypes = {
   user: PropTypes.shape({

@@ -1,11 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-
-import {
-  getCurrencies as actionGetCurrencies,
-  addExpense as actionAddExpense,
-} from '../redux/actions';
 
 const methods = ['Dinheiro', 'Cartão de crédito', 'Cartão de débito'];
 const categories = ['Alimentação', 'Lazer', 'Trabalho', 'Transporte', 'Saúde'];
@@ -103,16 +97,7 @@ function WalletForm({ getCurrencies, currencies, addExpense }) {
   );
 }
 
-const mapStateToProps = ({ wallet }) => ({
-  currencies: wallet.currencies,
-});
-
-const mapDispatchToProps = {
-  getCurrencies: actionGetCurrencies,
-  addExpense: actionAddExpense,
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(WalletForm);
+export default WalletForm;
 
 WalletForm.propTypes = {
   currencies: PropTypes.arrayOf(PropTypes.string).isRequired,

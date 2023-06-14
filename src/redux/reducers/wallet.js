@@ -19,11 +19,13 @@ const walletReducer = (state = initialState, action) => {
     const { expenses, total } = state;
     const { exchangeRates } = action.payload;
     const { currency } = action.payload;
+    const exchangeValue = Number(action.payload.value)
+      * Number(exchangeRates[currency].ask);
     const id = expenses.length;
     return {
       ...state,
-      expenses: expenses.concat({ id, ...action.payload }),
-      total: total + Number(action.payload.value) * Number(exchangeRates[currency].ask),
+      expenses: expenses.concat({ ...action.payload, id, exchangeValue }),
+      total: total + exchangeValue,
     };
   }
   default:
