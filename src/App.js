@@ -1,14 +1,27 @@
 import React from 'react';
-import { Provider } from 'react-redux';
-import store from './redux/store';
-import Login from './pages/Login';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
-function App() {
+import Login from './pages/Login';
+import Header from './components/Header';
+
+function App({ user }) {
   return (
-    <Provider store={ store }>
-      <Login />
-    </Provider>
+    <>
+      <Header />
+      {!user.email && <Login />}
+    </>
   );
 }
 
-export default App;
+const mapStateToProps = ({ user }) => ({
+  user,
+});
+
+export default connect(mapStateToProps)(App);
+
+App.propTypes = {
+  user: PropTypes.shape({
+    email: PropTypes.string,
+  }).isRequired,
+};
