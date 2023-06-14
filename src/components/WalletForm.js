@@ -11,14 +11,14 @@ const methods = ['Dinheiro', 'Cartão de crédito', 'Cartão de débito'];
 const categories = ['Alimentação', 'Lazer', 'Trabalho', 'Transporte', 'Saúde'];
 
 const initialInputs = {
-  value: 0,
+  value: '',
   description: '',
   currency: 'USD',
   method: '',
   tag: '',
 };
 
-function WalletForm({ getCurrencies, currencies, total, addExpense }) {
+function WalletForm({ getCurrencies, currencies, addExpense }) {
   const [inputs, setInputs] = useState(initialInputs);
 
   const handleChange = ({ target }) => {
@@ -35,9 +35,6 @@ function WalletForm({ getCurrencies, currencies, total, addExpense }) {
     addExpense(inputs);
     setInputs(initialInputs);
   };
-  console.log(total);
-
-  console.log(total.toFixed(2));
   return (
     <form onSubmit={ handleSubmit }>
       <label htmlFor="value">Valor</label>
@@ -101,22 +98,14 @@ function WalletForm({ getCurrencies, currencies, total, addExpense }) {
           </option>
         ))}
       </select>
-      <div>
-        Total:
-        <div data-testid="total-field">{total.toFixed(2)}</div>
-      </div>
       <button type="submit">Adicionar despesa</button>
     </form>
   );
 }
 
-const mapStateToProps = ({ wallet }) => {
-  console.log(wallet);
-  return ({
-    currencies: wallet.currencies,
-    total: wallet.total,
-  });
-};
+const mapStateToProps = ({ wallet }) => ({
+  currencies: wallet.currencies,
+});
 
 const mapDispatchToProps = {
   getCurrencies: actionGetCurrencies,
@@ -127,7 +116,6 @@ export default connect(mapStateToProps, mapDispatchToProps)(WalletForm);
 
 WalletForm.propTypes = {
   currencies: PropTypes.arrayOf(PropTypes.string).isRequired,
-  total: PropTypes.number.isRequired,
   getCurrencies: PropTypes.func.isRequired,
   addExpense: PropTypes.func.isRequired,
 };

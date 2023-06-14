@@ -2,18 +2,23 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-function Header({ user }) {
+function Header({ user, total }) {
   return (
     <header>
       <span data-testid="email-field">{user.email}</span>
-      <span data-testid="total-field">0</span>
+      <div>
+        Total:
+        {' '}
+        <span data-testid="total-field">{total.toFixed(2)}</span>
+      </div>
       <span data-testid="header-currency-field">BRL</span>
     </header>
   );
 }
 
-const mapStateToProps = ({ user }) => ({
+const mapStateToProps = ({ user, wallet }) => ({
   user,
+  total: wallet.total,
 });
 
 export default connect(mapStateToProps)(Header);
@@ -22,4 +27,5 @@ Header.propTypes = {
   user: PropTypes.shape({
     email: PropTypes.string,
   }).isRequired,
+  total: PropTypes.number.isRequired,
 };
