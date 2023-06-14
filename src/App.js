@@ -1,27 +1,16 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
 
+import { Switch, Route } from 'react-router-dom';
 import Login from './pages/Login';
 import Wallet from './pages/Wallet';
 
-function App({ user }) {
+function App() {
   return (
-    <>
-      {user.email && <Wallet />}
-      {!user.email && <Login />}
-    </>
+    <Switch>
+      <Route exact path="/" component={ Login } />
+      <Route exact path="/carteira" component={ Wallet } />
+    </Switch>
   );
 }
 
-const mapStateToProps = ({ user }) => ({
-  user,
-});
-
-export default connect(mapStateToProps)(App);
-
-App.propTypes = {
-  user: PropTypes.shape({
-    email: PropTypes.string,
-  }).isRequired,
-};
+export default App;
