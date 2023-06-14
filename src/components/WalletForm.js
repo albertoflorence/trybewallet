@@ -2,19 +2,24 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import { getCurrencies as actionGetCurrencies } from '../redux/actions';
+import {
+  getCurrencies as actionGetCurrencies,
+  addExpense as actionAddExpense,
+} from '../redux/actions';
 
 const methods = ['Dinheiro', 'Cartão de crédito', 'Cartão de débito'];
 const categories = ['Alimentação', 'Lazer', 'Trabalho', 'Transporte', 'Saúde'];
 
-function WalletForm({ getCurrencies, currencies }) {
-  const [inputs, setInputs] = useState({
-    value: 0,
-    description: '',
-    currency: '',
-    method: '',
-    category: '',
-  });
+const initialInputs = {
+  value: 0,
+  description: '',
+  currency: 'USD',
+  method: '',
+  tag: '',
+};
+
+function WalletForm({ getCurrencies, currencies, total, addExpense }) {
+  const [inputs, setInputs] = useState(initialInputs);
 
   const handleChange = ({ target }) => {
     const { name, value } = target;
@@ -25,8 +30,16 @@ function WalletForm({ getCurrencies, currencies }) {
     getCurrencies();
   }, [getCurrencies]);
 
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    addExpense(inputs);
+    setInputs(initialInputs);
+  };
+  console.log(total);
+
+  console.log(total.toFixed(2));
   return (
-    <form>
+    <form onSubmit={ handleSubmit }>
       <label htmlFor="value">Valor</label>
       <input
         data-testid="value-input"
@@ -54,7 +67,9 @@ function WalletForm({ getCurrencies, currencies }) {
         onChange={ handleChange }
       >
         {currencies.map((currency) => (
-          <option key={ currency } value={ currency }>{currency}</option>
+          <option key={ currency } value={ currency }>
+            {currency}
+          </option>
         ))}
       </select>
       <label htmlFor="description">Moeda</label>
@@ -66,37 +81,53 @@ function WalletForm({ getCurrencies, currencies }) {
         onChange={ handleChange }
       >
         {methods.map((method) => (
-          <option key={ method } value={ method }>{method}</option>
+          <option key={ method } value={ method }>
+            {method}
+          </option>
         ))}
       </select>
 
       <label htmlFor="description">Moeda</label>
       <select
         data-testid="tag-input"
-        id="category"
-        name="category"
-        value={ inputs.category }
+        id="tag"
+        name="tag"
+        value={ inputs.tag }
         onChange={ handleChange }
       >
-        {categories.map((category) => (
-          <option key={ category } value={ category }>{category}</option>
+        {categories.map((tag) => (
+          <option key={ tag } value={ tag }>
+            {tag}
+          </option>
         ))}
       </select>
+      <div>
+        Total:
+        <div data-testid="total-field">{total.toFixed(2)}</div>
+      </div>
+      <button type="submit">Adicionar despesa</button>
     </form>
   );
 }
 
-const mapStateToProps = ({ wallet }) => ({
-  currencies: wallet.currencies,
-});
+const mapStateToProps = ({ wallet }) => {
+  console.log(wallet);
+  return ({
+    currencies: wallet.currencies,
+    total: wallet.total,
+  });
+};
 
 const mapDispatchToProps = {
   getCurrencies: actionGetCurrencies,
+  addExpense: actionAddExpense,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(WalletForm);
 
 WalletForm.propTypes = {
-  getCurrencies: PropTypes.func.isRequired,
   currencies: PropTypes.arrayOf(PropTypes.string).isRequired,
+  total: PropTypes.number.isRequired,
+  getCurrencies: PropTypes.func.isRequired,
+  addExpense: PropTypes.func.isRequired,
 };
