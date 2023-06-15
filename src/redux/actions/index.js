@@ -4,6 +4,7 @@ export const GET_CURRENCIES = 'GET_CURRENCIES';
 export const ADD_EXPENSE = 'ADD_EXPENSE';
 export const EDIT_EXPENSE = 'EDIT_EXPENSE';
 export const DELETE_EXPENSE = 'DELETE_EXPENSE';
+export const START_EDIT_EXPENSE = 'START_EDIT_EXPENSE';
 
 const fetchCurrencies = () => fetch('https://economia.awesomeapi.com.br/json/all')
   .then((r) => r.json());
@@ -33,12 +34,17 @@ export const addExpense = (expense) => async (dispatch) => {
   });
 };
 
-export const editExpense = (id, expense) => ({
+export const editExpense = (expense) => ({
   type: EDIT_EXPENSE,
-  payload: { id, expense },
+  payload: expense,
 });
 
 export const deleteExpense = (id) => ({
   type: DELETE_EXPENSE,
   payload: id,
+});
+
+export const startEditExpense = (expense) => ({
+  type: START_EDIT_EXPENSE,
+  payload: expense,
 });

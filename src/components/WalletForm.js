@@ -1,18 +1,24 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+
+import {
+  getCurrencies as actionGetCurrencies,
+  editExpense as actionEditExpense,
+  addExpense as actionAddExpense,
+} from '../redux/actions';
 
 const methods = ['Dinheiro', 'Cartão de crédito', 'Cartão de débito'];
-const categories = ['Alimentação', 'Lazer', 'Trabalho', 'Transporte', 'Saúde'];
+const tags = ['Alimentação', 'Lazer', 'Trabalho', 'Transporte', 'Saúde'];
 
-const initialInputs = {
-  value: '',
-  description: '',
-  currency: 'USD',
-  method: '',
-  tag: '',
-};
-
-function WalletForm({ getCurrencies, currencies, addExpense }) {
+function WalletForm({
+  getCurrencies,
+  currencies,
+  addExpense,
+  editExpense,
+  initialInputs,
+  isEditing,
+}) {
   const [inputs, setInputs] = useState(initialInputs);
 
   const handleChange = ({ target }) => {
@@ -21,14 +27,19 @@ function WalletForm({ getCurrencies, currencies, addExpense }) {
   };
 
   useEffect(() => {
+    setInputs(initialInputs);
+  }, [initialInputs]);
+
+  useEffect(() => {
     getCurrencies();
   }, [getCurrencies]);
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    addExpense(inputs);
-    setInputs(initialInputs);
+    const action = isEditing ? editExpense : addExpense;
+    action(inputs);
   };
+
   return (
     <form onSubmit={ handleSubmit }>
       <label htmlFor="value">Valor</label>
@@ -77,7 +88,6 @@ function WalletForm({ getCurrencies, currencies, addExpense }) {
           </option>
         ))}
       </select>
-
       <label htmlFor="description">Moeda</label>
       <select
         data-testid="tag-input"
@@ -86,21 +96,42 @@ function WalletForm({ getCurrencies, currencies, addExpense }) {
         value={ inputs.tag }
         onChange={ handleChange }
       >
-        {categories.map((tag) => (
+        {tags.map((tag) => (
           <option key={ tag } value={ tag }>
             {tag}
           </option>
         ))}
       </select>
-      <button type="submit">Adicionar despesa</button>
+      <button type="submit">{isEditing ? 'Editar despesa' : 'Adicionar despesa'}</button>
     </form>
   );
 }
 
-export default WalletForm;
+const mapStateToProps = ({ wallet }) => ({
+  currencies: wallet.currencies,
+  initialInputs: wallet.initialInputs,
+  isEditing: wallet.isEditing,
+});
+
+const mapDispatchToProps = {
+  getCurrencies: actionGetCurrencies,
+  addExpense: actionAddExpense,
+  editExpense: actionEditExpense,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(WalletForm);
 
 WalletForm.propTypes = {
   currencies: PropTypes.arrayOf(PropTypes.string).isRequired,
   getCurrencies: PropTypes.func.isRequired,
   addExpense: PropTypes.func.isRequired,
+  editExpense: PropTypes.func.isRequired,
+  initialInputs: PropTypes.shape({
+    value: PropTypes.string,
+    description: PropTypes.string,
+    currency: PropTypes.string,
+    method: PropTypes.string,
+    tag: PropTypes.string,
+  }).isRequired,
+  isEditing: PropTypes.bool.isRequired,
 };

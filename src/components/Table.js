@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-function Table({ expenses, deleteExpense, editExpense }) {
+function Table({ expenses, deleteExpense, startEditExpense }) {
   return (
     <table>
       <thead>
@@ -18,32 +18,35 @@ function Table({ expenses, deleteExpense, editExpense }) {
         </tr>
       </thead>
       <tbody>
-        {expenses.map(
-          ({ id, description, method, value, currency, tag, exchangeRates }) => {
-            const { name, ask } = exchangeRates[currency];
-            const exchangeValue = Number(value) * Number(exchangeRates[currency].ask);
-            return (
-              <tr key={ id }>
-                <td>{description}</td>
-                <td>{tag}</td>
-                <td>{method}</td>
-                <td>{Number(value).toFixed(2)}</td>
-                <td>{currency}</td>
-                <td>{name}</td>
-                <td>{Number(ask).toFixed(2)}</td>
-                <td>{Number(exchangeValue).toFixed(2)}</td>
-                <td>
-                  <button data-testid="edit-btn" onClick={ () => editExpense(id) }>
-                    Editar
-                  </button>
-                  <button data-testid="delete-btn" onClick={ () => deleteExpense(id) }>
-                    Excluir
-                  </button>
-                </td>
-              </tr>
-            );
-          },
-        )}
+        {expenses.map((expense) => {
+          const
+            { id, description, method, value, currency, tag, exchangeRates } = expense;
+          const { name, ask } = exchangeRates[currency];
+          const exchangeValue = Number(value) * Number(exchangeRates[currency].ask);
+          return (
+            <tr key={ id }>
+              <td>{description}</td>
+              <td>{tag}</td>
+              <td>{method}</td>
+              <td>{Number(value).toFixed(2)}</td>
+              <td>{currency}</td>
+              <td>{name}</td>
+              <td>{Number(ask).toFixed(2)}</td>
+              <td>{Number(exchangeValue).toFixed(2)}</td>
+              <td>
+                <button
+                  data-testid="edit-btn"
+                  onClick={ () => startEditExpense(expense) }
+                >
+                  Editar
+                </button>
+                <button data-testid="delete-btn" onClick={ () => deleteExpense(id) }>
+                  Excluir
+                </button>
+              </td>
+            </tr>
+          );
+        })}
       </tbody>
     </table>
   );
@@ -68,5 +71,5 @@ Table.propTypes = {
     }),
   ).isRequired,
   deleteExpense: PropTypes.func.isRequired,
-  editExpense: PropTypes.func.isRequired,
+  startEditExpense: PropTypes.func.isRequired,
 };
