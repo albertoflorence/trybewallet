@@ -19,15 +19,7 @@ function Table({ expenses, deleteExpense, editExpense }) {
       </thead>
       <tbody>
         {expenses.map(
-          ({
-            id,
-            description,
-            method,
-            value,
-            currency,
-            tag,
-            exchangeRates,
-          }) => {
+          ({ id, description, method, value, currency, tag, exchangeRates }) => {
             const { name, ask } = exchangeRates[currency];
             const exchangeValue = Number(value) * Number(exchangeRates[currency].ask);
             return (
@@ -41,7 +33,9 @@ function Table({ expenses, deleteExpense, editExpense }) {
                 <td>{Number(ask).toFixed(2)}</td>
                 <td>{Number(exchangeValue).toFixed(2)}</td>
                 <td>
-                  <button onClick={ () => editExpense(id) }>Editar</button>
+                  <button data-testid="edit-btn" onClick={ () => editExpense(id) }>
+                    Editar
+                  </button>
                   <button data-testid="delete-btn" onClick={ () => deleteExpense(id) }>
                     Excluir
                   </button>

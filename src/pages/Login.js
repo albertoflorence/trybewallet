@@ -29,8 +29,6 @@ function Login({ login }) {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    if (!validate(inputs)) return;
-
     login(inputs);
     history.push('/carteira');
   };
