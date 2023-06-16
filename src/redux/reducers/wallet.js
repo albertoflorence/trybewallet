@@ -1,8 +1,11 @@
+/* eslint-disable react-func/max-lines-per-function */
+import { getLocalStorage, setLocalStorage } from '../../util/localStorage';
 import {
   ADD_EXPENSE,
   DELETE_EXPENSE,
   EDIT_EXPENSE,
   GET_CURRENCIES,
+  SORT_EXPENSE,
   START_EDIT_EXPENSE,
 } from '../actions';
 
@@ -14,7 +17,7 @@ const defaultInputs = {
   tag: 'Alimentação',
 };
 
-const initialState = {
+const initialState = getLocalStorage('redux') || {
   currencies: [],
   expenses: [],
   total: 0,
@@ -33,7 +36,14 @@ const handleExpenses = (expenses) => ({
   total: calculateTotal(expenses),
 });
 
+const sortExpenses = (a, b) => {
+  if (Number(a)) return a - b;
+  if (typeof a === 'string') return a.localeCompare(b);
+  return false;
+};
+
 const walletReducer = (state = initialState, action) => {
+  setLocalStorage('redux', state);
   switch (action.type) {
   case GET_CURRENCIES: {
     return {
@@ -44,7 +54,8 @@ const walletReducer = (state = initialState, action) => {
 
   case ADD_EXPENSE: {
     const { expenses } = state;
-    const newExpenses = expenses.concat({ ...action.payload, id: expenses.length });
+    const id = Math.max(...expenses.map((item) => item.id), 0) + 1;
+    const newExpenses = expenses.concat({ ...action.payload, id });
     return {
       ...state,
       ...handleExpenses(newExpenses),
@@ -76,6 +87,15 @@ const walletReducer = (state = initialState, action) => {
     return {
       ...state,
       ...handleExpenses(newExpenses),
+    };
+  }
+  case SORT_EXPENSE: {
+    const { expenses } = state;
+    const name = action.payload;
+
+    return {
+      ...state,
+      expenses: [...expenses.sort((a, b) => sortExpenses(a[name], b[name]))],
     };
   }
   default:

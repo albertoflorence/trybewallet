@@ -8,6 +8,8 @@ import Table from '../components/Table';
 import {
   deleteExpense as actionDeleteExpense,
   startEditExpense as actionStartEditExpense,
+  sortExpense as actionSortExpense,
+
 } from '../redux/actions';
 
 function Wallet({
@@ -16,17 +18,19 @@ function Wallet({
   expenses,
   deleteExpense,
   startEditExpense,
+  sortExpense,
 }) {
   return (
-    <>
+    <section className="wallet">
       <Header user={ user } total={ total } />
       <WalletForm />
       <Table
         expenses={ expenses }
         deleteExpense={ deleteExpense }
         startEditExpense={ startEditExpense }
+        onSort={ sortExpense }
       />
-    </>
+    </section>
   );
 }
 
@@ -39,6 +43,7 @@ const mapStateToProps = ({ wallet, user }) => ({
 const mapDispatchToProps = {
   deleteExpense: actionDeleteExpense,
   startEditExpense: actionStartEditExpense,
+  sortExpense: actionSortExpense,
 };
 
 Wallet.propTypes = {
@@ -58,6 +63,7 @@ Wallet.propTypes = {
   ).isRequired,
   deleteExpense: PropTypes.func.isRequired,
   startEditExpense: PropTypes.func.isRequired,
+  sortExpense: PropTypes.func.isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Wallet);

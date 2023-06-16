@@ -41,68 +41,91 @@ function WalletForm({
   };
 
   return (
-    <form onSubmit={ handleSubmit }>
-      <label htmlFor="value">Valor</label>
-      <input
-        data-testid="value-input"
-        type="number"
-        id="value"
-        name="value"
-        value={ inputs.value }
-        onChange={ handleChange }
-      />
-      <label htmlFor="description">Description</label>
-      <input
-        data-testid="description-input"
-        type="text"
-        id="description"
-        name="description"
-        value={ inputs.description }
-        onChange={ handleChange }
-      />
-      <label htmlFor="description">Moeda</label>
-      <select
-        data-testid="currency-input"
-        id="currency"
-        name="currency"
-        value={ inputs.currency }
-        onChange={ handleChange }
-      >
-        {currencies.map((currency) => (
-          <option key={ currency } value={ currency }>
-            {currency}
-          </option>
-        ))}
-      </select>
-      <label htmlFor="description">Moeda</label>
-      <select
-        data-testid="method-input"
-        id="method"
-        name="method"
-        value={ inputs.method }
-        onChange={ handleChange }
-      >
-        {methods.map((method) => (
-          <option key={ method } value={ method }>
-            {method}
-          </option>
-        ))}
-      </select>
-      <label htmlFor="description">Moeda</label>
-      <select
-        data-testid="tag-input"
-        id="tag"
-        name="tag"
-        value={ inputs.tag }
-        onChange={ handleChange }
-      >
-        {tags.map((tag) => (
-          <option key={ tag } value={ tag }>
-            {tag}
-          </option>
-        ))}
-      </select>
-      <button type="submit">{isEditing ? 'Editar despesa' : 'Adicionar despesa'}</button>
+    <form onSubmit={ handleSubmit } className="wallet-form">
+      <div className="wallet-form-content">
+        <div>
+          <div className="wallet-form-input">
+            <label htmlFor="description">Descrição da despesa</label>
+            <input
+              data-testid="description-input"
+              type="text"
+              id="description"
+              name="description"
+              value={ inputs.description }
+              onChange={ handleChange }
+            />
+          </div>
+          <div className="wallet-form-input">
+            <label htmlFor="tag">Categoria da despesa</label>
+            <select
+              data-testid="tag-input"
+              id="tag"
+              name="tag"
+              value={ inputs.tag }
+              onChange={ handleChange }
+            >
+              {tags.map((tag) => (
+                <option key={ tag } value={ tag }>
+                  {tag}
+                </option>
+              ))}
+            </select>
+          </div>
+        </div>
+        <div>
+          <div className="wallet-form-input">
+            <label htmlFor="value">Valor</label>
+            <input
+              data-testid="value-input"
+              type="number"
+              id="value"
+              name="value"
+              placeholder="0.00"
+              value={ inputs.value }
+              onChange={ handleChange }
+            />
+          </div>
+          <div className="wallet-form-input">
+            <label htmlFor="method">Método de pagamento</label>
+            <select
+              data-testid="method-input"
+              id="method"
+              name="method"
+              value={ inputs.method }
+              onChange={ handleChange }
+            >
+              {methods.map((method) => (
+                <option key={ method } value={ method }>
+                  {method}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div className="wallet-form-input">
+            <label htmlFor="currency">Moeda</label>
+            <select
+              data-testid="currency-input"
+              id="currency"
+              name="currency"
+              value={ inputs.currency }
+              onChange={ handleChange }
+            >
+              {currencies.map((currency) => (
+                <option key={ currency } value={ currency }>
+                  {currency}
+                </option>
+              ))}
+            </select>
+          </div>
+        </div>
+      </div>
+      <div className="wallet-form-action">
+        <button
+          type="submit"
+        >
+          {isEditing ? 'Editar despesa' : 'Adicionar despesa'}
+        </button>
+      </div>
     </form>
   );
 }

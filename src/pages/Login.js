@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { useHistory } from 'react-router-dom/';
 
 import { login as actionLogin } from '../redux/actions';
+import Logo from '../components/Logo';
 
 const PASSWORD_MIN_LENGTH = 6;
 
@@ -34,28 +35,35 @@ function Login({ login }) {
   };
 
   return (
-    <form onSubmit={ handleSubmit }>
-      <label htmlFor="email">Email</label>
-      <input
-        data-testid="email-input"
-        type="text"
-        id="email"
-        name="email"
-        value={ inputs.email }
-        onChange={ handleChange }
-      />
-      <label htmlFor="password">Password</label>
-      <input
-        data-testid="password-input"
-        type="password"
-        id="password"
-        name="password"
-        value={ inputs.password }
-        onChange={ handleChange }
-
-      />
-      <button type="submit" disabled={ !validate(inputs) }>Entrar</button>
-    </form>
+    <section className="login">
+      <form onSubmit={ handleSubmit } className="login-form">
+        <Logo />
+        <div className="login-form-input">
+          <label htmlFor="email">Email</label>
+          <input
+            data-testid="email-input"
+            type="text"
+            id="email"
+            name="email"
+            value={ inputs.email }
+            onChange={ handleChange }
+          />
+        </div>
+        <div className="login-form-input">
+          <label htmlFor="password">Password</label>
+          <input
+            data-testid="password-input"
+            type="password"
+            id="password"
+            name="password"
+            value={ inputs.password }
+            onChange={ handleChange }
+            autoComplete="new-password"
+          />
+        </div>
+        <button type="submit" disabled={ !validate(inputs) }>Entrar</button>
+      </form>
+    </section>
   );
 }
 

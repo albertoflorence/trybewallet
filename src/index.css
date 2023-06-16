@@ -1,3 +1,9 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
@@ -5,9 +11,253 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overflow-y: scroll;
+}
+
+#root {
+  min-height: 100vh;
+  display: flex;
+  background-image: url(./images/background.png);
+  background-color: #46d8a3;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+button {
+  cursor: pointer;
+  transition: filter 0.2s ease-out;
+}
+
+button:hover {
+  filter: brightness(0.9)
+}
+
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+  opacity: 1;
+  overflow: hidden;
+}
+
+.login {
+  margin: auto;
+  background-color: white;
+  max-width: 525px;
+  width: 100%;
+  box-shadow: -4px 9px 13px rgba(3, 107, 82, 0.3);
+  border-radius: 10px;
+  padding: 60px 0px;
+}
+
+.login-form .logo {
+  margin-bottom: 30px;
+}
+
+.login-form {
+  display: flex;
+  margin: 0 auto;
+  flex-direction: column;
+  justify-content: center;
+  max-width: 330px;
+  width: 100%;
+}
+
+.login-form-input {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 8px;
+}
+
+.login-form-input input {
+  padding: 12px;
+  color: #003BE5;
+  border-radius: 5px;
+  border: 1px solid #003BE5;
+  outline-color: #003BE5;
+}
+
+.login-form-input label {
+  color: #003BE5;
+  margin-bottom: 4px;
+}
+
+.login-form button {
+  margin-top: 12px;
+  background: #003BE5;
+  border: 1px solid #003BE5;
+  border-radius: 5px;
+  color: white;
+  font-weight: 700;
+  padding: 12px;
+}
+
+.wallet {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.wallet > * {
+  width: 100%;
+}
+
+.header {
+  max-width: 1050px;
+  background-color: white;
+  padding: 42px;
+}
+
+.header-content {
+  justify-content: space-between;
+  max-width: 830px;
+  display: flex;
+  margin: auto;
+}
+
+.header-expenses {
+  display: flex;
+  gap: 8px;
+  font-weight: 700;
+  color: #003BE5;
+  align-items: center;
+}
+
+.header-expenses span {
+  font-weight: 400;
+
+}
+
+.header-profile {
+  display: flex;
+  align-items: center;
+  color: #46d8a3;
+  gap: 8px;
+}
+
+.wallet-form {
+  background: rgba(255, 255, 255, 0.9);
+  max-width: 1050px;
+  z-index: 1;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+  overflow: hidden;
+}
+
+.wallet-form-content {
+  display: flex;
+  flex-wrap: wrap;
+  max-width: 830px;
+  margin: 0 auto;
+  gap: 16px;
+  padding: 24px 0;
+}
+
+.wallet-form-content > div{
+  display: flex;
+  width: 100%;
+  gap: 28px;
+}
+
+.wallet-form-input {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  flex: 1 0 auto;
+}
+
+.wallet-form-input label{
+  color: #003BE5;
+  font-weight: 700;
+}
+
+.wallet-form-input input, select{
+  background-color: transparent;
+  border: 1px solid #003BE5;
+  outline-color: #003BE5;
+  color: #003BE5;
+  padding: 8px;
+  border-radius: 4px;
+  flex: 1 1 auto;
+}
+
+.wallet-form-input  input::placeholder {
+  color: #0039e57F;
+}
+
+.wallet-form-action {
+  background-color: white;
+  padding: 28px;
+  display: flex;
+  justify-content: center;
+}
+
+.wallet-form-action button{
+  background-color: #2fc18c;
+  color: white;
+  font-weight: 700;
+  padding: 12px;
+  border: none;
+  max-width: 330px;
+  width: 100%;
+  border-radius: 4px;
+}
+
+.wallet-table {
+  max-width: 1170px;
+  background-color: #003BE5;
+  border-radius: 10px;
+  font-size: 12px;
+  padding-top: 230px;
+  margin-top: -229px;
+  min-height: 60vh;
+  margin-bottom: 50px;
+}
+
+.wallet-table table{
+  max-width: 1050px;
+  width: 100%;
+  margin: auto;
+  border-collapse: collapse;
+  text-align: center;
+  margin-top: 32px;
+}
+
+.wallet-table thead th{
+  border: none;
+  color: white;
+  margin-bottom: 10px;
+  padding: 12px 0;
+  width: 110px;
+  border-bottom: 1px solid white;
+
+}
+.wallet-table thead th > div{
+  height: 23px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  user-select: none;
+}
+
+.wallet-table thead th:not(:last-child) > div {
+  border-right: 1px solid white;
+}
+
+.wallet-table tbody th, tbody td{
+  border-top: 1px solid #2FC18C;
+  padding: 12px;
+  color: #2FC18C;
+}
+
+.wallet-table button {
+  border: none;
+  background: none;
+  margin-right: 10px;
 }
