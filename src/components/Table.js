@@ -31,7 +31,6 @@ function Table({ expenses, deleteExpense, startEditExpense, onSort }) {
                   {title}
                 </div>
               </th>
-
             ))}
           </tr>
         </thead>

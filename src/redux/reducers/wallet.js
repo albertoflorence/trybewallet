@@ -13,7 +13,7 @@ const defaultInputs = {
   value: '',
   description: '',
   currency: 'USD',
-  method: 'Dinheiro',
+  method: '',
   tag: 'Alimentação',
 };
 
